@@ -15,7 +15,13 @@ const POST = async (req:Request) => {
             const valid = await compare(password,FoundUser.password)
             if (valid){
                 const secret = process.env.JWT_SECRET || "sah"
-                const token = sign({FoundUser},secret)
+                const token = sign({
+                    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+                    data:{
+                        userId: FoundUser.id,
+                        email: FoundUser.email,
+                        userName: FoundUser.name
+                    }},secret)
                 return Response.json({message: "Go on sir",token},{status:202})
             } else {
                 return Response.json({message: "Who tf are you"},{status:403})
