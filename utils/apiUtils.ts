@@ -13,6 +13,20 @@ const ValidateToken = (req:Request) => {
     }
 }
 
+const handleQuery = async (query : any) => {
+    try{
+        const {message,status} = await query()
+        return Response.json({message},{status})
+    }catch(err:any){
+        console.log(err)
+        if(err.code){
+            return Response.json({message: ("Duplicate ~")},{status: 409})
+        }
+        return Response.json({message:"something happned"},{status: 500})
+    }
+}
+
 export {
-    ValidateToken
+    ValidateToken,
+    handleQuery
 }
