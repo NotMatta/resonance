@@ -14,9 +14,12 @@ model User {
     password  String
     pfp       String
     followerCount Int @default(0)
-    FollowingCount Int @default(0)
+    followingCount Int @default(0)
     followers Follow[]  @relation("Followers")
     following Follow[]  @relation("Followings")
+    posts     Post[]
+    postLikes PostLikes[]
+    comments  Comment[]
 }
 
 model Follow {
@@ -29,3 +32,32 @@ model Follow {
     @@unique([followingId,followerId])
 }
 
+model Post {
+    id        Int     @id @default(autoincrement())
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  Int
+    text      String
+    creationDate DateTime @default(now())
+    likesCount Int     @default(0)
+    likes     PostLikes[]
+    comments  Comment[]
+}
+
+model Comment {
+    id        Int     @id @default(autoincrement())
+    post      Post    @relation(fields: [postId],references: [id])
+    postId    Int
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  Int
+    text      Int
+    creationDate DateTime @default(now())
+    likes     Int     @default(0)
+}
+
+model PostLikes {
+    id        Int     @id @default(autoincrement())
+    User      User    @relation(fields: [userId],references: [id])
+    Post      Post    @relation(fields: [postId],references: [id])
+    userId    Int     
+    postId    Int
+}
