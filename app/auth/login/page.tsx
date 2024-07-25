@@ -1,20 +1,29 @@
 "use client"
-import { Login } from "@/components/session-provider"
+import { RedirectorContext } from "@/components/redirector-provider"
+import { Login, useRefreshAuth } from "@/components/session-provider"
 import Link from "next/link"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { FormEvent } from "react"
 
 const LoginPage = () => {
 
     const [data,setData] = useState<{email:string,password:string}>({email:"",password:""})
+    const refresh = useRefreshAuth()
+    const {setLoading} : any = useContext(RedirectorContext)
 
     const HandleLogin = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true)
         const {message,status} = await Login(data)
         if (status != 202){
             setData({email:"",password:""})
             alert(message)
-        }
+            setLoading(false)
+            return
+        } //@ts-ignore
+        refresh(true)
+        setLoading(false)
+        return
     }
 
     return (

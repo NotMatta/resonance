@@ -22,7 +22,7 @@ const POST = async (req:Request) => {
                         email: FoundUser.email,
                         userName: FoundUser.name
                     }},secret)
-                return Response.json({message: "Go on sir",token},{status:202})
+                return Response.json({message: "Go on sir",token,name:FoundUser.name,email:FoundUser.email,userId:FoundUser.id,pfp:FoundUser.pfp},{status:202})
             } else {
                 return Response.json({message: "Who tf are you"},{status:403})
             }

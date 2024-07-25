@@ -27,8 +27,8 @@ model User {
 
 model Follow {
     id        Int     @id @default(autoincrement())
-    follower  User    @relation(fields: [followerId], references: [id],"Followings")
-    following User    @relation(fields: [followingId], references: [id],"Followers")
+    follower  User    @relation(fields: [followerId], references: [id],"Followings",onDelete: Cascade)
+    following User    @relation(fields: [followingId], references: [id],"Followers",onDelete: Cascade)
     followerId Int
     followingId Int
 
@@ -37,7 +37,7 @@ model Follow {
 
 model Post {
     id        Int     @id @default(autoincrement())
-    author    User    @relation(fields: [authorId], references: [id])
+    author    User    @relation(fields: [authorId], references: [id],onDelete: Cascade)
     authorId  Int
     text      String
     creationDate DateTime @default(now())
@@ -48,9 +48,9 @@ model Post {
 
 model Comment {
     id        Int     @id @default(autoincrement())
-    post      Post    @relation(fields: [postId],references: [id])
+    post      Post    @relation(fields: [postId],references: [id],onDelete: Cascade)
     postId    Int
-    author    User    @relation(fields: [authorId], references: [id])
+    author    User    @relation(fields: [authorId], references: [id],onDelete: Cascade)
     authorId  Int
     text      String
     creationDate DateTime @default(now())
@@ -61,9 +61,9 @@ model Comment {
 
 model Reply {
     id        Int     @id @default(autoincrement())
-    comment   Comment @relation(fields: [commentId], references: [id])
+    comment   Comment @relation(fields: [commentId], references: [id],onDelete: Cascade)
     commentId Int
-    author    User    @relation(fields: [authorId], references: [id])
+    author    User    @relation(fields: [authorId], references: [id],onDelete: Cascade)
     authorId  Int
     text      String
     creationDate DateTime @default(now())
@@ -73,8 +73,8 @@ model Reply {
 
 model PostLikes {
     id        Int     @id @default(autoincrement())
-    user      User    @relation(fields: [userId],references: [id])
-    post      Post    @relation(fields: [postId],references: [id])
+    user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
+    post      Post    @relation(fields: [postId],references: [id],onDelete: Cascade)
     userId    Int     
     postId    Int
 
@@ -83,8 +83,8 @@ model PostLikes {
 
 model CommentLikes {
     id        Int     @id @default(autoincrement())
-    user      User    @relation(fields: [userId],references: [id])
-    comment   Comment    @relation(fields: [commentId],references: [id])
+    user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
+    comment   Comment    @relation(fields: [commentId],references: [id],onDelete: Cascade)
     userId    Int     
     commentId Int
 
@@ -93,8 +93,8 @@ model CommentLikes {
 
 model ReplyLikes {
     id        Int     @id @default(autoincrement())
-    user      User    @relation(fields: [userId],references: [id])
-    reply     Reply    @relation(fields: [replyId],references: [id])
+    user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
+    reply     Reply    @relation(fields: [replyId],references: [id],onDelete: Cascade)
     userId    Int     
     replyId Int
 

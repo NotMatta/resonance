@@ -21,8 +21,8 @@ const checkStorage = async () => {
                 }
             }
             localStorage.removeItem("session")
-        }catch(err){
-            console.log(err)
+        }catch(err:any){
+            console.log(err.response)
         }
     }
     return {
