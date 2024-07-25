@@ -27,7 +27,7 @@ const POST = async (req:Request) => {
                 return Response.json({message: "Who tf are you"},{status:403})
             }
         } else {
-            return Response.json({message: "User Not found"},{status:404})
+            return Response.json({message: "User Not found"},{status:403})
         }
     }catch(err){
         return Response.json({message: "Internal server error or something"},{status:500})

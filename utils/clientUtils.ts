@@ -1,0 +1,38 @@
+import axios from "axios"
+
+const checkStorage = async () => {
+    const storedSession = localStorage.getItem("session")
+    if(storedSession){
+        try{
+            const parsedSession = JSON.parse(storedSession)
+            const res = await axios.get("/api/auth/validate",{
+                headers:{
+                    Authorization: ("Bearer " + parsedSession.token)
+                }
+            })
+            if (res.status == 202){
+                return {
+                    userId: res.data.tokenData.data.userId,
+                    name: res.data.tokenData.data.userName,
+                    email: res.data.tokenData.data.email,
+                    status: "authenticated",
+                    token: parsedSession.token,
+                    pfp: ""
+                }
+            }
+            localStorage.removeItem("session")
+        }catch(err){
+            console.log(err)
+        }
+    }
+    return {
+        name: "",
+        email: "",
+        pfp: "",
+        token: "",
+        userId: null,
+        status: "unauthenticated"
+    }
+}
+
+export {checkStorage}
