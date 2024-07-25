@@ -20,6 +20,9 @@ model User {
     posts     Post[]
     postLikes PostLikes[]
     comments  Comment[]
+    commentLikes CommentLikes[]
+    replies   Reply[]
+    replyLikes ReplyLikes[]
 }
 
 model Follow {
@@ -49,15 +52,51 @@ model Comment {
     postId    Int
     author    User    @relation(fields: [authorId], references: [id])
     authorId  Int
-    text      Int
+    text      String
     creationDate DateTime @default(now())
+    commentLikes CommentLikes[]
+    likes     Int     @default(0)
+    replies   Reply[]
+}
+
+model Reply {
+    id        Int     @id @default(autoincrement())
+    comment   Comment @relation(fields: [commentId], references: [id])
+    commentId Int
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  Int
+    text      String
+    creationDate DateTime @default(now())
+    replyLikes ReplyLikes[]
     likes     Int     @default(0)
 }
 
 model PostLikes {
     id        Int     @id @default(autoincrement())
-    User      User    @relation(fields: [userId],references: [id])
-    Post      Post    @relation(fields: [postId],references: [id])
+    user      User    @relation(fields: [userId],references: [id])
+    post      Post    @relation(fields: [postId],references: [id])
     userId    Int     
     postId    Int
+
+    @@unique([userId,postId])
+}
+
+model CommentLikes {
+    id        Int     @id @default(autoincrement())
+    user      User    @relation(fields: [userId],references: [id])
+    comment   Comment    @relation(fields: [commentId],references: [id])
+    userId    Int     
+    commentId Int
+
+    @@unique([userId,commentId])
+}
+
+model ReplyLikes {
+    id        Int     @id @default(autoincrement())
+    user      User    @relation(fields: [userId],references: [id])
+    reply     Reply    @relation(fields: [replyId],references: [id])
+    userId    Int     
+    replyId Int
+
+    @@unique([userId,replyId])
 }

@@ -20,7 +20,7 @@ const handleQuery = async (query : any) => {
     }catch(err:any){
         console.log(err)
         if(err.code){
-            return Response.json({message: ("Duplicate ~")},{status: 409})
+            return Response.json({message: ("Database issue ~")},{status: 409})
         }
         return Response.json({message:"something happned"},{status: 500})
     }
