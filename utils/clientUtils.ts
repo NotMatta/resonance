@@ -17,7 +17,7 @@ const checkStorage = async () => {
                     email: res.data.tokenData.data.email,
                     status: "authenticated",
                     token: parsedSession.token,
-                    pfp: ""
+                    pfp: res.data.tokenData.data.pfp
                 }
             }
             localStorage.removeItem("session")

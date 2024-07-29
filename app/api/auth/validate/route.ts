@@ -9,7 +9,7 @@ const GET = async (req:Request) => {
     if (!User){
         return Response.json({message: "who tf are you"},{status: 403})
     }
-    return Response.json({tokenData},{status:202})
+    return Response.json({tokenData:{...tokenData,data:{...tokenData.data,userName:User.name,pfp:User.pfp}}},{status:202})
 }
 
 export {GET}

@@ -6,19 +6,28 @@ const PUT = async (req: Request) => {
     if (!tokenData){
         return Response.json({message: "who tf are you"},{status: 403})
     }
-    const {userName} = await req.json()
-    if (!userName){
+    const {name,pfp} = await req.json()
+    console.log({name,pfp})
+    if (!name && !pfp){
         return Response.json({message: "why?"},{status: 400})
     }
     const query = async () => {
-        await prisma.user.update({
+        name ? await prisma.user.update({
             where:{
                 email: tokenData.data.email
             },
             data:{
-                name:userName
+                name
             }
-        })
+        }) : ""
+        pfp ? await prisma.user.update({
+            where:{
+                email: tokenData.data.email
+            },
+            data:{
+                pfp
+            }
+        }) : ""
         return {message: "Updated <3",status: 200}
     }
     return await handleQuery(query)

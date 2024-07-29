@@ -44,11 +44,10 @@ const SessionProvider = ({children} : {children: React.ReactNode}) => {
             setRedirect(true)
             checkStorage().then((res : sessionType) => {
                 setSession(res)
-                if (res.status == "authenticated"){
-                    router.push("/main")
-                    return
-                }
-                router.push("/auth/login")
+                if (res.status == "authenticated" && (window.location.pathname.indexOf("main") == -1)){
+                    router.push("/main/home")
+                } else if(res.status == "unauthenticated" && (window.location.pathname.indexOf("auth") == -1)) {
+                router.push("/auth/login")}
             })
             console.log("fetched")
             setRedirect(false)

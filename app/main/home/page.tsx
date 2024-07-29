@@ -8,7 +8,6 @@ export default function Home() {
     const session = useSession()
     const router = useRouter()
     const {setLoading} : any = useContext(RedirectorContext)
-    console.log(session)
     return (
         <div className="bg-background h-full w-full">
             <p>{session.status} and signed in as {session.name}</p>

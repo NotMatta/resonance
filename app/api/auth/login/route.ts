@@ -20,7 +20,8 @@ const POST = async (req:Request) => {
                     data:{
                         userId: FoundUser.id,
                         email: FoundUser.email,
-                        userName: FoundUser.name
+                        userName: FoundUser.name,
+                        pfp: FoundUser.pfp
                     }},secret)
                 return Response.json({message: "Go on sir",token,name:FoundUser.name,email:FoundUser.email,userId:FoundUser.id,pfp:FoundUser.pfp},{status:202})
             } else {
