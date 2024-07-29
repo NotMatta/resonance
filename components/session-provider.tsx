@@ -45,7 +45,7 @@ const SessionProvider = ({children} : {children: React.ReactNode}) => {
             checkStorage().then((res : sessionType) => {
                 setSession(res)
                 if (res.status == "authenticated"){
-                    router.push("/")
+                    router.push("/main")
                     return
                 }
                 router.push("/auth/login")

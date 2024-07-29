@@ -4,10 +4,10 @@
 
 @layer utilities {
     body{
-        @apply m-0 h-screen max-w-7xl w-full mx-auto border bg-background box-border px-4 py-2 relative;
+        @apply m-0 h-screen max-w-7xl w-full mx-auto border text-primary bg-background box-border relative;
     }
     *{
-        @apply text-primary border-secondary;
+        @apply border-secondary;
     }
     h1{
         font-size: clamp(30px,10vw + 1rem,80px);
@@ -37,5 +37,11 @@
     }
     button.outlined{
         @apply bg-background border border-primary;
+    }
+    .NavBarIcon{
+        @apply p-1 rounded-xl hover:bg-primary hover:text-background hover:scale-105 duration-300 *:size-8;
+    }
+    .activeNavIcon{
+        @apply bg-primary text-background scale-105;
     }
 }
