@@ -1,6 +1,8 @@
 "use client"
+import PostCreate from "@/components/post-create";
 import { RedirectorContext } from "@/components/redirector-provider";
 import { useSession } from "@/components/session-provider";
+import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
@@ -9,20 +11,8 @@ export default function Home() {
     const router = useRouter()
     const {setLoading} : any = useContext(RedirectorContext)
     return (
-        <div className="bg-background h-full w-full">
-            <p>{session.status} and signed in as {session.name}</p>
-            <h1>Balls~</h1>
-            <h2>Balls~</h2>
-            <h3>Balls~</h3>
-            <p>Balls~</p>
-            <button className="default" onClick={
-                () => {
-                    setLoading(true)
-                    localStorage.removeItem("session")
-                    router.push("/auth/login")
-                    setLoading(false)
-                }
-            }>sign out</button>
+        <div className="bg-background h-full w-full max-w-4xl mx-auto overflow-scroll flex flex-col">
+            <PostCreate/>
         </div>
     );
 }

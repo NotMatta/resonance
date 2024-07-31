@@ -10,26 +10,26 @@
         @apply border-secondary;
     }
     h1{
-        font-size: clamp(30px,6vw + 1rem,80px);
+        font-size: clamp(30px,6vw + 1rem,60px);
         @apply font-extrabold
     }
     h2{
-        font-size: clamp(25px,4vw + 1rem,60px);
+        font-size: clamp(25px,4vw + 1rem,40px);
         @apply font-bold
     }
     h3{
-        font-size: clamp(15px,2vw + 1rem ,40px);
+        font-size: clamp(15px,2vw + 1rem ,20px);
         @apply font-semibold
     }
     p{
-        font-size: clamp(10px,1vw + 1rem,20px);
+        font-size: clamp(10px,1vw + 1rem,15px);
     }
     input{
-        font-size: clamp(10px,2vw + 1rem,20px);
+        font-size: clamp(10px,2vw + 1rem,15px);
         @apply bg-background border px-2 py-2 rounded-xl focus-visible:outline-none;
     }
     button{
-        font-size: clamp(10px,2vw + 1rem,20px);
+        font-size: clamp(10px,2vw + 1rem,15px);
         @apply  rounded-xl px-4 py-3 font-semibold;
     }
     button.default{

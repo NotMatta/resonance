@@ -6,12 +6,14 @@ import { MoveLeft, Pen } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import Link from "next/link"
+import Post from "@/components/post-component"
 
 const ProfilePage = ({params}: {params: {id: string}}) => {
 
     const session = useSession()
     const [load,setLoad] = useState(true)
     const [userInfo,setUserInfo] = useState({})
+    const [posts,setPosts] = useState([{}])
     const [following,setFollow] = useState(false)
     const [owner,setOwner] = useState(false)
     const setRedirector = useContext(RedirectorContext).setLoading
@@ -106,7 +108,7 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
                     <img src={userInfo?.pfp} className="rounded-full size-28 object-cover"/>
                     <div className="flex flex-col justify-between gap-1">
                         <div className="h-1/2">
-                            <p className="font-bold">{userInfo?.name}</p>
+                            <h3>{userInfo?.name}</h3>
                             <p className="text-xs">{userInfo?.email}</p>
                         </div>
                         <div className="h-1/2">
@@ -129,6 +131,9 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
                     </Link>}
             </div>}
             <h3>Posts</h3>
+            {!load && <div className="">
+                    {posts.map(((post,k) => <Post key={k} postData={{...post,authorPfp:session.pfp}}/>))}
+            </div>}
         </div>
     )
 }
