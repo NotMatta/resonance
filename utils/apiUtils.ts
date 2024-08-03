@@ -16,10 +16,10 @@ const ValidateToken = (req:Request) => {
     }
 }
 
-const handleQuery = async (query : any) => {
+const handleQuery = async (query : Function) => {
     try{
-        const res = await query()
-        return Response.json({...res},{status:res.status})
+        const {status, ...res} = await query()
+        return Response.json({...res},{status})
     }catch(err:any){
         console.log(err)
         if(err.code){

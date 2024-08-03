@@ -8,17 +8,23 @@ const GET = async (req:NextRequest) => {
         return Response.json({message: "who tf are you"},{status: 403})
     }
     const params = req.nextUrl.searchParams
-    const {method,id} = {method:(params.get("method") || ""),id:Number(params.get("id") || undefined)}
-    if(["userId","postId"].indexOf(method) == -1 || isNaN(id)){
+    const {method,id,page} = {method:(params.get("method") || ""),id:Number(params.get("id") || undefined),page:Number(params.get("page") || undefined)}
+    if(["userId","postId"].indexOf(method) == -1 || isNaN(id) ||(method == "userId" && isNaN(page))){
         return Response.json({message: "bad request"},{status: 400})
     }
     const query = async() => {
         if(method == "userId") {
-            const Posts = await prisma.post.findMany({where:{authorId:id},take:10})
-            return {Posts,status:(Posts.length == 0 ? 404 : 200)}
+            const Posts = await prisma.post.findMany({
+                where:{authorId:id},
+                take:3,
+                orderBy:{creationDate:"desc"},
+                skip:(page * 3)
+            })
+            return {Posts,status: 200}
         }
         const Post = await prisma.post.findUnique({where:{id}})
-        return {Post,status:200}
+        const Author = await prisma.user.findUnique({where:{id:Post?.authorId}})
+        return {Post:{...Post,authorName: Author?.name, authorPfp: Author?.pfp},status:200}
     }
     return handleQuery(query)
 }

@@ -13,7 +13,8 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
     const session = useSession()
     const [load,setLoad] = useState(true)
     const [userInfo,setUserInfo] = useState({})
-    const [posts,setPosts] = useState([{}])
+    const [posts,setPosts] : any= useState([])
+    const [paging,setPaging] = useState(0)
     const [following,setFollow] = useState(false)
     const [owner,setOwner] = useState(false)
     const setRedirector = useContext(RedirectorContext).setLoading
@@ -51,6 +52,25 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
             alert("something happened!")
         }
         setLoad(true)
+    }
+
+    const FetchPosts = async() => {
+        try{
+            const res = await axios.get("/api/post",{
+                    headers:{
+                        Authorization: `Bearer ${session.token}`
+                    },
+                    params:{
+                        method: "userId",
+                        id: params.id,
+                        page: paging
+                    }
+            })
+            setPosts([...posts,...(res.data.Posts)])
+            setPaging(paging+1)
+        }catch(err){
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -92,6 +112,8 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
             setRedirector(true)
             FetchUser()
             FetchFollow()
+            setPosts([])
+            FetchPosts()
             setLoad(false)
             setRedirector(false)
         }
@@ -131,8 +153,9 @@ const ProfilePage = ({params}: {params: {id: string}}) => {
                     </Link>}
             </div>}
             <h3>Posts</h3>
-            {!load && <div className="">
-                    {posts.map(((post,k) => <Post key={k} postData={{...post,authorPfp:session.pfp}}/>))}
+           {!load && <div className="flex flex-col items-center gap-4 mb-4">
+                {posts.map(((post,k) => <Post key={k} postData={{...post,authorName:userInfo.name,authorPfp:userInfo.pfp}} isPage={false}/>))}
+                {(userInfo.postsCount > posts.length) && <button className="bg-secondary" onClick={FetchPosts}>Fetch More Posts</button>}
             </div>}
         </div>
     )

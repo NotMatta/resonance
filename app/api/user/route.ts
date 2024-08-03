@@ -20,13 +20,15 @@ const GET = async (req: NextRequest) => {
         try{
             const FoundUser = await prisma.user.findUnique({where:{id}})
             if (FoundUser){
+                const PostsCount = await prisma.post.count({where:{authorId:FoundUser.id}})
                 return Response.json({message: "nyega",User:{
                     id: FoundUser.id,
                     name: FoundUser.name,
                     email: FoundUser.email,
                     pfp: FoundUser.pfp,
                     followerCount: FoundUser.followerCount,
-                    followingCount: FoundUser.followingCount
+                    followingCount: FoundUser.followingCount,
+                    postsCount: PostsCount
                 }},{status: 200})}
             return Response.json({message: "No user found"},{status: 404})
         }catch(err){

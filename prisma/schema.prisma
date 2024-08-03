@@ -18,11 +18,11 @@ model User {
     followers Follow[]  @relation("Followers")
     following Follow[]  @relation("Followings")
     posts     Post[]
-    postLikes PostLikes[]
+    postLikes PostLike[]
     comments  Comment[]
-    commentLikes CommentLikes[]
+    commentLikes CommentLike[]
     replies   Reply[]
-    replyLikes ReplyLikes[]
+    replyLikes ReplyLike[]
 }
 
 model Follow {
@@ -42,7 +42,7 @@ model Post {
     text      String
     creationDate DateTime @default(now())
     likesCount Int     @default(0)
-    likes     PostLikes[]
+    likes     PostLike[]
     comments  Comment[]
 }
 
@@ -54,7 +54,7 @@ model Comment {
     authorId  Int
     text      String
     creationDate DateTime @default(now())
-    commentLikes CommentLikes[]
+    commentLikes CommentLike[]
     likes     Int     @default(0)
     replies   Reply[]
 }
@@ -67,11 +67,11 @@ model Reply {
     authorId  Int
     text      String
     creationDate DateTime @default(now())
-    replyLikes ReplyLikes[]
+    replyLikes ReplyLike[]
     likes     Int     @default(0)
 }
 
-model PostLikes {
+model PostLike {
     id        Int     @id @default(autoincrement())
     user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
     post      Post    @relation(fields: [postId],references: [id],onDelete: Cascade)
@@ -81,7 +81,7 @@ model PostLikes {
     @@unique([userId,postId])
 }
 
-model CommentLikes {
+model CommentLike {
     id        Int     @id @default(autoincrement())
     user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
     comment   Comment    @relation(fields: [commentId],references: [id],onDelete: Cascade)
@@ -91,7 +91,7 @@ model CommentLikes {
     @@unique([userId,commentId])
 }
 
-model ReplyLikes {
+model ReplyLike {
     id        Int     @id @default(autoincrement())
     user      User    @relation(fields: [userId],references: [id],onDelete: Cascade)
     reply     Reply    @relation(fields: [replyId],references: [id],onDelete: Cascade)

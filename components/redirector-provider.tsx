@@ -26,7 +26,13 @@ const RedirectorProvider = ({children}:{children:React.ReactNode}) => {
     )
 }
 
+const useGlobalLoad = () => {
+    const {setLoading} = useContext(RedirectorContext)
+    return setLoading
+}
+
 export {
     RedirectorProvider,
-    RedirectorContext
+    RedirectorContext,
+    useGlobalLoad
 }

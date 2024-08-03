@@ -7,7 +7,7 @@ const Layout = ({children}: {children:React.ReactNode}) => {
     return (
         <div className="flex flex-col-reverse h-full md:flex-row">
             <NavBar/>
-            <div className="p-2 h-full w-full">
+            <div className="p-2 h-full max-h-full overflow-y-scroll w-full">
                 {children}
             </div>
         </div>
